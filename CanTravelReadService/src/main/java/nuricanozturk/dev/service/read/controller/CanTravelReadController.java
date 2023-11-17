@@ -1,87 +1,93 @@
 package nuricanozturk.dev.service.read.controller;
 
 import nuricanozturk.dev.data.entity.HouseType;
-import nuricanozturk.dev.service.read.dto.HousesDTO;
-import nuricanozturk.dev.service.read.service.CanTravelReadService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import nuricanozturk.dev.service.read.dto.AvailableHouseQueryDTO;
+import nuricanozturk.dev.service.read.response.IResponseService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import static callofproject.dev.library.exception.util.ExceptionUtil.subscribe;
+import static org.springframework.http.ResponseEntity.internalServerError;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api/read")
 public class CanTravelReadController
 {
-    private final CanTravelReadService canTravelReadService;
+    private final IResponseService m_responseService;
 
-    public CanTravelReadController(CanTravelReadService canTravelReadService)
+    public CanTravelReadController(IResponseService responseService)
     {
-        this.canTravelReadService = canTravelReadService;
+        m_responseService = responseService;
     }
 
-    @GetMapping("/houses")
-    public HousesDTO findAllHouse(@RequestParam("p") int page)
+
+    @GetMapping("houses")
+    public ResponseEntity<Object> findAllHouse(@RequestParam("p") int page)
     {
-        return canTravelReadService.findAllHouse(page);
+        return subscribe(() -> ok(m_responseService.findAllHouse(page)), msg -> internalServerError().body(msg.getMessage()));
     }
 
-    @GetMapping("/housesByHouseType")
-    public HousesDTO findAllHouseByHouseType(@RequestParam("type") HouseType houseType, @RequestParam("p") int page)
+    @GetMapping("find/house/type")
+    public ResponseEntity<Object> findAllHouseByHouseType(@RequestParam("type") HouseType houseType, @RequestParam("p") int page)
     {
-        return canTravelReadService.findAllHouseByHouseType(houseType, page);
+        return subscribe(() -> ok(m_responseService.findAllHouseByHouseType(houseType, page)),
+                msg -> internalServerError().body(msg.getMessage()));
     }
 
-    @GetMapping("/housesByPriceBetween")
-    public HousesDTO findAllHouseByPriceBetween(@RequestParam("min") double min, @RequestParam("max") double max, @RequestParam("p") int page)
+    @GetMapping("find/house/price/between")
+    public ResponseEntity<Object> findAllHouseByPriceBetween(@RequestParam("min") double min, @RequestParam("max") double max, @RequestParam("p") int page)
     {
-        return canTravelReadService.findAllHouseByPriceBetween(min, max, page);
+        return subscribe(() -> ok(m_responseService.findAllHouseByPriceBetween(min, max, page)),
+                msg -> internalServerError().body(msg.getMessage()));
     }
 
-    @GetMapping("/housesByPriceLessThanEqual")
-    public HousesDTO findAllHouseByPriceLessThanEqual(@RequestParam("price") double price, @RequestParam("p") int page)
+    @GetMapping("find/house/price/max")
+    public ResponseEntity<Object> findAllHouseByPriceLessThanEqual(@RequestParam("price") double price, @RequestParam("p") int page)
     {
-        return canTravelReadService.findAllHouseByPriceLessThanEqual(price, page);
+        return subscribe(() -> ok(m_responseService.findAllHouseByPriceLessThanEqual(price, page)),
+                msg -> internalServerError().body(msg.getMessage()));
     }
 
-    @GetMapping("/housesByPriceGreaterThanEqual")
-    public HousesDTO findAllHouseByPriceGreaterThanEqual(@RequestParam("price") double price, @RequestParam("p") int page)
+    @GetMapping("/find/house/price/min")
+    public ResponseEntity<Object> findAllHouseByPriceGreaterThanEqual(@RequestParam("price") double price, @RequestParam("p") int page)
     {
-        return canTravelReadService.findAllHouseByPriceGreaterThanEqual(price, page);
+        return subscribe(() -> ok(m_responseService.findAllHouseByPriceGreaterThanEqual(price, page)),
+                msg -> internalServerError().body(msg.getMessage()));
     }
 
-    @GetMapping("/houseByHouseName")
-    public HousesDTO findHouseByHouseName(@RequestParam("name") String homeName, @RequestParam("p") int page)
+    @GetMapping("find/house/name")
+    public ResponseEntity<Object> findHouseByHouseName(@RequestParam("n") String homeName, @RequestParam("p") int page)
     {
-        return canTravelReadService.findHouseByHouseName(homeName, page);
+        return subscribe(() -> ok(m_responseService.findHouseByHouseName(homeName, page)),
+                msg -> internalServerError().body(msg.getMessage()));
     }
 
-    @GetMapping("/housesInCity")
-    public HousesDTO findAllHouseInCity(@RequestParam("city") String city, @RequestParam("p") int page)
+    @GetMapping("find/house/city")
+    public ResponseEntity<Object> findAllHouseInCity(@RequestParam("city") String city, @RequestParam("p") int page)
     {
-        return canTravelReadService.findAllHouseInCity(city, page);
+        return subscribe(() -> ok(m_responseService.findAllHouseInCity(city, page)),
+                msg -> internalServerError().body(msg.getMessage()));
     }
 
-    @GetMapping("/housesInCountry")
-    public HousesDTO findAllHouseInCountry(@RequestParam("country") String country, @RequestParam("p") int page)
+    @GetMapping("find/house/country")
+    public ResponseEntity<Object> findAllHouseInCountry(@RequestParam("country") String country, @RequestParam("p") int page)
     {
-        return canTravelReadService.findAllHouseInCountry(country, page);
+        return subscribe(() -> ok(m_responseService.findAllHouseInCountry(country, page)),
+                msg -> internalServerError().body(msg.getMessage()));
     }
 
-    @GetMapping("/housesByCountryAndCity")
-    public HousesDTO findAllHouseByCountryAndCity(@RequestParam("country") String country, @RequestParam("city") String city, @RequestParam("p") int page)
+    @GetMapping("/find/house/country-city")
+    public ResponseEntity<Object> findAllHouseByCountryAndCity(@RequestParam("country") String country, @RequestParam("city") String city, @RequestParam("p") int page)
     {
-        return canTravelReadService.findAllHouseByCountryAndCity(country, city, page);
+        return subscribe(() -> ok(m_responseService.findAllHouseByCountryAndCity(country, city, page)),
+                msg -> internalServerError().body(msg.getMessage()));
     }
 
-    @GetMapping("/availableHousesBetweenDates")
-    public HousesDTO findAvailableHousesBetweenDates(
-            @RequestParam("startDate") LocalDate startDate,
-            @RequestParam("finishDate") LocalDate finishDate,
-            @RequestParam("page") int page,
-            @RequestParam("participantCount") int participantCount)
+    @GetMapping("find/house/date/between")
+    public ResponseEntity<Object> findAvailableHousesBetweenDates(@RequestBody AvailableHouseQueryDTO queryDTO)
     {
-        return canTravelReadService.findAvailableHousesBetweenDates(startDate, finishDate, page, participantCount);
+        return subscribe(() -> ok(m_responseService.findAvailableHousesBetweenDates(queryDTO)),
+                msg -> internalServerError().body(msg.getMessage()));
     }
 }

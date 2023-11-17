@@ -2,20 +2,18 @@ package nuricanozturk.dev.service.read.service;
 
 import nuricanozturk.dev.data.dal.CanTravelServiceHelper;
 import nuricanozturk.dev.data.entity.HouseType;
+import nuricanozturk.dev.service.read.dto.AvailableHouseQueryDTO;
 import nuricanozturk.dev.service.read.dto.HousesDTO;
 import nuricanozturk.dev.service.read.mapper.IHouseMapper;
-import nuricanozturk.dev.service.read.mapper.ILocationMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 
 import static callofproject.dev.library.exception.util.CopDataUtil.doForDataService;
 import static nuricanozturk.dev.service.read.util.StreamUtil.toListConcurrent;
 
 @Service
 @Lazy
-public class CanTravelReadService
+public class CanTravelReadService implements ICanTravelReadService
 {
     private final CanTravelServiceHelper m_travelServiceHelper;
     private final IHouseMapper m_houseMapper;
@@ -27,12 +25,19 @@ public class CanTravelReadService
     }
 
 
+    @Override
     public HousesDTO findAllHouse(int page)
     {
         return m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper.findAllHouse(), m_houseMapper::toHouseDTO));
     }
 
+    @Override
+    public long getTotalPage()
+    {
+        return doForDataService(m_travelServiceHelper::getPageSize, "CanTravelServiceHelper::getTotalPage");
+    }
 
+    @Override
     public HousesDTO findAllHouseByHouseType(HouseType houseType, int page)
     {
         return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper
@@ -40,6 +45,7 @@ public class CanTravelReadService
                 "CanTravelReadService::findAllHouseByHouseType");
     }
 
+    @Override
     public HousesDTO findAllHouseByPriceBetween(double min, double max, int page)
     {
         var houses = m_travelServiceHelper.findAllHouseByPriceBetween(min, max, page);
@@ -48,6 +54,7 @@ public class CanTravelReadService
                 "CanTravelReadService::findAllHouseByPriceBetween");
     }
 
+    @Override
     public HousesDTO findAllHouseByPriceLessThanEqual(double price, int page)
     {
         var houses = m_travelServiceHelper.findAllHouseByPriceLessThanEqual(price, page);
@@ -56,6 +63,7 @@ public class CanTravelReadService
                 "CanTravelReadService::findAllHouseByPriceLessThanEqual");
     }
 
+    @Override
     public HousesDTO findAllHouseByPriceGreaterThanEqual(double price, int page)
     {
         var houses = m_travelServiceHelper.findAllHouseByPriceGreaterThanEqual(price, page);
@@ -64,6 +72,7 @@ public class CanTravelReadService
                 "CanTravelReadService::findAllHouseByPriceGreaterThanEqual");
     }
 
+    @Override
     public HousesDTO findHouseByHouseName(String homeName, int page)
     {
         var houses = m_travelServiceHelper.findHouseByHouseName(homeName, page);
@@ -72,6 +81,7 @@ public class CanTravelReadService
                 "CanTravelReadService::findHouseByHouseName");
     }
 
+    @Override
     public HousesDTO findAllHouseInCity(String city, int page)
     {
         var houses = m_travelServiceHelper.findAllHouseInCity(city, page);
@@ -80,6 +90,7 @@ public class CanTravelReadService
                 "CanTravelReadService::findAllHouseInCity");
     }
 
+    @Override
     public HousesDTO findAllHouseInCountry(String country, int page)
     {
         var houses = m_travelServiceHelper.findAllHouseInCountry(country, page);
@@ -88,6 +99,7 @@ public class CanTravelReadService
                 "CanTravelReadService::findAllHouseInCountry");
     }
 
+    @Override
     public HousesDTO findAllHouseByCountryAndCity(String country, String city, int page)
     {
         var houses = m_travelServiceHelper.findAllHouseByCountryAndCity(country, city, page);
@@ -96,9 +108,11 @@ public class CanTravelReadService
                 "CanTravelReadService::findAllHouseByCountryAndCity");
     }
 
-    public HousesDTO findAvailableHousesBetweenDates(LocalDate startDate, LocalDate finishDate, int page, int participantCount)
+    @Override
+    public HousesDTO findAvailableHousesBetweenDates(AvailableHouseQueryDTO queryDTO)
     {
-        var houses = m_travelServiceHelper.findAvailableHousesBetweenDates(startDate, finishDate, page, participantCount);
+        var houses = m_travelServiceHelper.findAvailableHousesBetweenDates(queryDTO.startDate(), queryDTO.finishDate(),
+                queryDTO.page(), queryDTO.participantCount());
 
         return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
                 "CanTravelReadService::findAvailableHousesBetweenDates");

@@ -6,6 +6,6 @@ import java.util.List;
 
 public record HousesDTO(
         @JsonProperty("house_list")
-        List<HouseDTO> m_houses)
+        List<HouseDTO> houses)
 {
 }

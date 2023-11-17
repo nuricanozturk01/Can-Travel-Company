@@ -36,6 +36,12 @@ public class CanTravelServiceHelper
         m_locationRepository = locationRepository;
     }
 
+    public long getPageSize()
+    {
+        return doForRepository(() -> ((m_houseRepository.count() / m_defaultPageSize) + 1), "CanTravelServiceHelper::count");
+    }
+
+
     public long getHouseCount()
     {
         return doForRepository(() -> m_houseRepository.count(), "ServiceHelper::getHouseCount");
