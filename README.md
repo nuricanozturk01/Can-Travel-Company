@@ -1,5 +1,5 @@
 # Can-Travel-Company
-
+##### NOT COMPLETED YET!
 ### Midterm Project For SE-448 lesson.
 
 - Database:
