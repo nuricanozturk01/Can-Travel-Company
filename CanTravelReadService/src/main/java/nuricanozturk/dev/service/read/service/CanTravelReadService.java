@@ -2,6 +2,7 @@ package nuricanozturk.dev.service.read.service;
 
 import nuricanozturk.dev.data.dal.CanTravelServiceHelper;
 import nuricanozturk.dev.data.entity.HouseType;
+import nuricanozturk.dev.data.entity.ViewType;
 import nuricanozturk.dev.service.read.dto.AvailableHouseQueryDTO;
 import nuricanozturk.dev.service.read.dto.HousesDTO;
 import nuricanozturk.dev.service.read.mapper.IHouseMapper;
@@ -24,7 +25,6 @@ public class CanTravelReadService implements ICanTravelReadService
         m_houseMapper = houseMapper;
     }
 
-
     @Override
     public HousesDTO findAllHouse(int page)
     {
@@ -46,6 +46,14 @@ public class CanTravelReadService implements ICanTravelReadService
     }
 
     @Override
+    public HousesDTO findAllHouseByView(ViewType viewType, int page)
+    {
+        return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper
+                        .findHouseByViewType(viewType, page), m_houseMapper::toHouseDTO)),
+                "CanTravelReadService::findAllHouseByView");
+    }
+
+    @Override
     public HousesDTO findAllHouseByPriceBetween(double min, double max, int page)
     {
         var houses = m_travelServiceHelper.findAllHouseByPriceBetween(min, max, page);
@@ -53,6 +61,7 @@ public class CanTravelReadService implements ICanTravelReadService
         return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
                 "CanTravelReadService::findAllHouseByPriceBetween");
     }
+
 
     @Override
     public HousesDTO findAllHouseByPriceLessThanEqual(double price, int page)

@@ -18,6 +18,7 @@ public final class StreamUtil
         return StreamSupport.stream(iterable.spliterator(), false).map(mapper);
     }
 
+
     public static <T, R> Stream<R> toStreamConcurrent(Iterable<T> iterable, Function<? super T, ? extends R> mapper)
     {
         return StreamSupport.stream(iterable.spliterator(), true).map(mapper);

@@ -1,6 +1,7 @@
 package nuricanozturk.dev.service.read.response;
 
 import nuricanozturk.dev.data.entity.HouseType;
+import nuricanozturk.dev.data.entity.ViewType;
 import nuricanozturk.dev.service.read.dto.AvailableHouseQueryDTO;
 import nuricanozturk.dev.service.read.dto.HousesDTO;
 import nuricanozturk.dev.service.read.dto.ResponseDTO;
@@ -16,5 +17,6 @@ public interface IResponseService
     ResponseDTO findAllHouseByPriceLessThanEqual(double price, int page);
     ResponseDTO findAllHouseByPriceBetween(double min, double max, int page);
     ResponseDTO findAllHouseByHouseType(HouseType houseType, int page);
+    ResponseDTO findAllHouseByView(ViewType viewType, int page);
     ResponseDTO findAllHouse(int page);
 }

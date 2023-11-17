@@ -1,6 +1,7 @@
 package nuricanozturk.dev.service.read.controller;
 
 import nuricanozturk.dev.data.entity.HouseType;
+import nuricanozturk.dev.data.entity.ViewType;
 import nuricanozturk.dev.service.read.dto.AvailableHouseQueryDTO;
 import nuricanozturk.dev.service.read.response.IResponseService;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,14 @@ public class CanTravelReadController
         return subscribe(() -> ok(m_responseService.findAllHouseByHouseType(houseType, page)),
                 msg -> internalServerError().body(msg.getMessage()));
     }
+
+    @GetMapping("find/house/view")
+    public ResponseEntity<Object> findAllHouseByHouseView(@RequestParam("view") ViewType view, @RequestParam("p") int page)
+    {
+        return subscribe(() -> ok(m_responseService.findAllHouseByView(view, page)),
+                msg -> internalServerError().body(msg.getMessage()));
+    }
+
 
     @GetMapping("find/house/price/between")
     public ResponseEntity<Object> findAllHouseByPriceBetween(@RequestParam("min") double min, @RequestParam("max") double max, @RequestParam("p") int page)

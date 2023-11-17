@@ -1,6 +1,7 @@
 package nuricanozturk.dev.service.read.response;
 
 import nuricanozturk.dev.data.entity.HouseType;
+import nuricanozturk.dev.data.entity.ViewType;
 import nuricanozturk.dev.service.read.dto.AvailableHouseQueryDTO;
 import nuricanozturk.dev.service.read.dto.HousesDTO;
 import nuricanozturk.dev.service.read.dto.ResponseDTO;
@@ -82,6 +83,12 @@ public class ResponseService implements IResponseService
     public ResponseDTO findAllHouseByHouseType(HouseType houseType, int page)
     {
         return prepareMessage(m_travelReadService.findAllHouseByHouseType(houseType, page), page);
+    }
+
+    @Override
+    public ResponseDTO findAllHouseByView(ViewType viewType, int page)
+    {
+        return prepareMessage(m_travelReadService.findAllHouseByView(viewType, page), page);
     }
 
     @Override

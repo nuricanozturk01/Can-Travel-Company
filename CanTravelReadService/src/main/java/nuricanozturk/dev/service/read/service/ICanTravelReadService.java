@@ -1,6 +1,7 @@
 package nuricanozturk.dev.service.read.service;
 
 import nuricanozturk.dev.data.entity.HouseType;
+import nuricanozturk.dev.data.entity.ViewType;
 import nuricanozturk.dev.service.read.dto.AvailableHouseQueryDTO;
 import nuricanozturk.dev.service.read.dto.HousesDTO;
 
@@ -23,6 +24,8 @@ public interface ICanTravelReadService
     HousesDTO findAllHouseByPriceBetween(double min, double max, int page);
 
     HousesDTO findAllHouseByHouseType(HouseType houseType, int page);
+
+    HousesDTO findAllHouseByView(ViewType viewType, int page);
 
     HousesDTO findAllHouse(int page);
 
