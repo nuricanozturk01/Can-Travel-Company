@@ -1,2 +1,20 @@
 # Can-Travel-Company
-Project for SE-4458
+
+### Midterm Project For SE-448 lesson.
+
+- Database:
+    - Development: PostgreSQL
+    - Test: H2
+
+- General:
+    - Spring boot 3.1.5
+    - Java 17
+    - .....
+
+#### Database Design:
+
+![db_design.png](image%2Fdb_design.png)
+
+#### Unit Tests:
+
+![unit_tests.png](image%2Funit_tests.png)
