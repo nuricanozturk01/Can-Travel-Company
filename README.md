@@ -9,7 +9,8 @@
 - General:
     - Spring boot 3.1.5
     - Java 17
-    - .....
+    - Mapstruct
+    - Swagger
 
 #### Database Design:
 
