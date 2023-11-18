@@ -33,9 +33,10 @@ public class CanTravelAuthenticationProvider implements AuthenticationProvider
         {
             if (passwordEncoder.matches(pwd, user.get().getPassword()))
                 return new UsernamePasswordAuthenticationToken(username, pwd, null);
-            else
-                throw new BadCredentialsException("Invalid password!");
-        } else throw new BadCredentialsException("No user registered with this details!");
+
+            else throw new BadCredentialsException("Invalid password!");
+        }
+        else throw new BadCredentialsException("No user registered with this details!");
     }
 
 

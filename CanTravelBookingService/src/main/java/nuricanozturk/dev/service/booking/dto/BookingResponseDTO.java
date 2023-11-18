@@ -2,11 +2,13 @@ package nuricanozturk.dev.service.booking.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import nuricanozturk.dev.data.entity.HouseType;
 import nuricanozturk.dev.data.entity.ViewType;
 
 import java.time.LocalDate;
 
+@Schema(description = "Booking Response DTO")
 public record BookingResponseDTO(
         @JsonProperty("house_name")
         String houseName,
