@@ -13,6 +13,8 @@
     - Java 17
     - Mapstruct
     - Swagger
+    - JUnit
+    - JWT
 
 ### Database Design:
 
