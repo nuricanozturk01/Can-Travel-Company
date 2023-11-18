@@ -6,7 +6,7 @@ import nuricanozturk.dev.data.dal.CanTravelServiceHelper;
 import nuricanozturk.dev.data.entity.House;
 import nuricanozturk.dev.service.booking.dto.BookingResponseDTO;
 import nuricanozturk.dev.service.booking.dto.BookingSaveDTO;
-import nuricanozturk.dev.service.booking.service.ICanTravelBookingService;
+import nuricanozturk.dev.service.booking.service.v1.ICanTravelBookingService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -50,7 +50,7 @@ public class CanTravelCompanyBookingTest
 
         var dto = new BookingSaveDTO(house.getHouseId().toString(), "nuricanozturk", 1, start, end);
 
-        var reservationResult = m_bookingService.saveReservationByUsername(dto);
+        var reservationResult = m_bookingService.saveReservation(dto);
         assertNotNull(reservationResult);
         assertTrue(reservationResult.success());
 
@@ -70,7 +70,7 @@ public class CanTravelCompanyBookingTest
 
         var dto = new BookingSaveDTO(house.getHouseId().toString(), "nuricanozturk", 1, start, end);
 
-        var reservationResult = m_bookingService.saveReservationByUsername(dto);
+        var reservationResult = m_bookingService.saveReservation(dto);
         assertNotNull(reservationResult);
         assertFalse(reservationResult.success());
 
@@ -88,7 +88,7 @@ public class CanTravelCompanyBookingTest
 
         var dto = new BookingSaveDTO(house.getHouseId().toString(), "nuricanozturk", 165, start, finish);
 
-        var reservationResult = m_bookingService.saveReservationByUsername(dto);
+        var reservationResult = m_bookingService.saveReservation(dto);
         assertNotNull(reservationResult);
         assertFalse(reservationResult.success());
 
@@ -106,7 +106,9 @@ public class CanTravelCompanyBookingTest
 
         var dto = new BookingSaveDTO(house.getHouseId().toString(), "owowochukwuemeka", 2, start, finish);
 
-        assertThrows(DataServiceException.class, () -> m_bookingService.saveReservationByUsername(dto),
+        assertThrows(DataServiceException.class, () -> m_bookingService.saveReservation(dto),
                 "Message: CanTravelBookingService::saveReservation , Cause Message:Message: Something wrong in server!");
     }
+
+    //....
 }

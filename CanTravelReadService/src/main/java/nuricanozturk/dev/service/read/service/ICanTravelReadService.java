@@ -3,31 +3,30 @@ package nuricanozturk.dev.service.read.service;
 import nuricanozturk.dev.data.entity.HouseType;
 import nuricanozturk.dev.data.entity.ViewType;
 import nuricanozturk.dev.service.read.dto.AvailableHouseQueryDTO;
-import nuricanozturk.dev.service.read.dto.HousesDTO;
+import nuricanozturk.dev.service.read.dto.ResponseDTO;
 
 public interface ICanTravelReadService
 {
-    HousesDTO findAvailableHousesBetweenDates(AvailableHouseQueryDTO queryDTO);
+    ResponseDTO findAvailableHousesBetweenDates(AvailableHouseQueryDTO queryDTO);
 
-    HousesDTO findAllHouseByCountryAndCity(String country, String city, int page);
+    ResponseDTO findAllHouseByCountryAndCity(String country, String city, int page);
 
-    HousesDTO findAllHouseInCountry(String country, int page);
+    ResponseDTO findAllHouseInCountry(String country, int page);
 
-    HousesDTO findAllHouseInCity(String city, int page);
+    ResponseDTO findAllHouseInCity(String city, int page);
 
-    HousesDTO findHouseByHouseName(String homeName, int page);
+    ResponseDTO findHouseByHouseName(String homeName, int page);
 
-    HousesDTO findAllHouseByPriceGreaterThanEqual(double price, int page);
+    ResponseDTO findAllHouseByPriceGreaterThanEqual(double price, int page);
 
-    HousesDTO findAllHouseByPriceLessThanEqual(double price, int page);
+    ResponseDTO findAllHouseByPriceLessThanEqual(double price, int page);
 
-    HousesDTO findAllHouseByPriceBetween(double min, double max, int page);
+    ResponseDTO findAllHouseByPriceBetween(double min, double max, int page);
 
-    HousesDTO findAllHouseByHouseType(HouseType houseType, int page);
+    ResponseDTO findAllHouseByHouseType(HouseType houseType, int page);
 
-    HousesDTO findAllHouseByView(ViewType viewType, int page);
+    ResponseDTO findAllHouseByView(ViewType viewType, int page);
 
-    HousesDTO findAllHouse(int page);
+    ResponseDTO findAllHouse(int page);
 
-    long getTotalPage();
 }

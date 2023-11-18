@@ -7,11 +7,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
 
 @Schema(description = "Booking Save Request Informations")
-public record BookingSaveDTO(
+public record BookingSaveDTOv2(
         @JsonProperty("house_id")
         String houseUUID,
-        @JsonProperty("customer_username")
-        String customer_username,
+        @JsonProperty("customer_id")
+        String customerId,
         @JsonProperty("participant_count")
         int participantCount,
         @Schema(description = "date format: dd/MM/yyyy - [23/12/2023]")

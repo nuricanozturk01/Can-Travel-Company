@@ -5,19 +5,24 @@ import nuricanozturk.dev.data.entity.HouseType;
 import nuricanozturk.dev.data.entity.ViewType;
 import nuricanozturk.dev.service.read.dto.AvailableHouseQueryDTO;
 import nuricanozturk.dev.service.read.dto.HousesDTO;
+import nuricanozturk.dev.service.read.dto.ResponseDTO;
 import nuricanozturk.dev.service.read.mapper.IHouseMapper;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import static callofproject.dev.library.exception.util.CopDataUtil.doForDataService;
+import static java.lang.String.format;
+import static nuricanozturk.dev.service.read.util.Constants.READ_SERVICE_V1;
 import static nuricanozturk.dev.service.read.util.StreamUtil.toListConcurrent;
 
-@Service
+@Service(READ_SERVICE_V1)
 @Lazy
+@Primary
 public class CanTravelReadService implements ICanTravelReadService
 {
-    private final CanTravelServiceHelper m_travelServiceHelper;
-    private final IHouseMapper m_houseMapper;
+    protected final CanTravelServiceHelper m_travelServiceHelper;
+    protected final IHouseMapper m_houseMapper;
 
     public CanTravelReadService(CanTravelServiceHelper travelServiceHelper, IHouseMapper houseMapper)
     {
@@ -25,105 +30,114 @@ public class CanTravelReadService implements ICanTravelReadService
         m_houseMapper = houseMapper;
     }
 
-    @Override
-    public HousesDTO findAllHouse(int page)
+    protected ResponseDTO prepareMessage(HousesDTO houses, int page)
     {
-        return m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper.findAllHouse(), m_houseMapper::toHouseDTO));
+        var totalPage = m_travelServiceHelper.getPageSize();
+
+        var msg = format("%d item found successfully!", houses.houses().size());
+
+        return new ResponseDTO(msg, totalPage, page, houses.houses().size(), true, houses.houses());
     }
 
     @Override
-    public long getTotalPage()
+    public ResponseDTO findAllHouse(int page)
     {
-        return doForDataService(m_travelServiceHelper::getPageSize, "CanTravelServiceHelper::getTotalPage");
+        return prepareMessage(m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper.findAllHouse(), m_houseMapper::toHouseDTO)), page);
     }
 
     @Override
-    public HousesDTO findAllHouseByHouseType(HouseType houseType, int page)
+    public ResponseDTO findAllHouseByHouseType(HouseType houseType, int page)
     {
-        return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper
+        var housesDTO = doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper
                         .findAllHouseByHouseType(houseType, page), m_houseMapper::toHouseDTO)),
                 "CanTravelReadService::findAllHouseByHouseType");
+
+        return prepareMessage(housesDTO, page);
     }
 
     @Override
-    public HousesDTO findAllHouseByView(ViewType viewType, int page)
+    public ResponseDTO findAllHouseByView(ViewType viewType, int page)
     {
-        return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper
+        var housesDTO = doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper
                         .findHouseByViewType(viewType, page), m_houseMapper::toHouseDTO)),
                 "CanTravelReadService::findAllHouseByView");
+
+        return prepareMessage(housesDTO, page);
     }
 
     @Override
-    public HousesDTO findAllHouseByPriceBetween(double min, double max, int page)
+    public ResponseDTO findAllHouseByPriceBetween(double min, double max, int page)
     {
         var houses = m_travelServiceHelper.findAllHouseByPriceBetween(min, max, page);
 
-        return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
-                "CanTravelReadService::findAllHouseByPriceBetween");
+        return prepareMessage(doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
+                "CanTravelReadService::findAllHouseByPriceBetween"), page);
     }
 
 
     @Override
-    public HousesDTO findAllHouseByPriceLessThanEqual(double price, int page)
+    public ResponseDTO findAllHouseByPriceLessThanEqual(double price, int page)
     {
         var houses = m_travelServiceHelper.findAllHouseByPriceLessThanEqual(price, page);
 
-        return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
-                "CanTravelReadService::findAllHouseByPriceLessThanEqual");
+        return prepareMessage(doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
+                "CanTravelReadService::findAllHouseByPriceLessThanEqual"), page);
     }
 
     @Override
-    public HousesDTO findAllHouseByPriceGreaterThanEqual(double price, int page)
+    public ResponseDTO findAllHouseByPriceGreaterThanEqual(double price, int page)
     {
         var houses = m_travelServiceHelper.findAllHouseByPriceGreaterThanEqual(price, page);
 
-        return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
-                "CanTravelReadService::findAllHouseByPriceGreaterThanEqual");
+        return prepareMessage(doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
+                "CanTravelReadService::findAllHouseByPriceGreaterThanEqual"), page);
     }
 
     @Override
-    public HousesDTO findHouseByHouseName(String homeName, int page)
+    public ResponseDTO findHouseByHouseName(String homeName, int page)
     {
         var houses = m_travelServiceHelper.findHouseByHouseName(homeName, page);
 
-        return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
-                "CanTravelReadService::findHouseByHouseName");
+        return prepareMessage(doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
+                "CanTravelReadService::findHouseByHouseName"), page);
     }
 
     @Override
-    public HousesDTO findAllHouseInCity(String city, int page)
+    public ResponseDTO findAllHouseInCity(String city, int page)
     {
-        var houses = m_travelServiceHelper.findAllHouseInCity(city, page);
+        var housesDTO = doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper
+                .findAllHouseInCity(city, page), m_houseMapper::toHouseDTO)), "CanTravelReadService::findAllHouseInCity");
 
-        return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
-                "CanTravelReadService::findAllHouseInCity");
+        return prepareMessage(housesDTO, page);
     }
 
     @Override
-    public HousesDTO findAllHouseInCountry(String country, int page)
+    public ResponseDTO findAllHouseInCountry(String country, int page)
     {
-        var houses = m_travelServiceHelper.findAllHouseInCountry(country, page);
+        var housesDTO = doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper
+                .findAllHouseInCountry(country, page), m_houseMapper::toHouseDTO)), "CanTravelReadService::findAllHouseInCountry");
 
-        return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
-                "CanTravelReadService::findAllHouseInCountry");
+        return prepareMessage(housesDTO, page);
     }
 
     @Override
-    public HousesDTO findAllHouseByCountryAndCity(String country, String city, int page)
+    public ResponseDTO findAllHouseByCountryAndCity(String country, String city, int page)
     {
-        var houses = m_travelServiceHelper.findAllHouseByCountryAndCity(country, city, page);
+        var housesDTO = doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper
+                .findAllHouseByCountryAndCity(country, city, page), m_houseMapper::toHouseDTO)), "CanTravelReadService::findAllHouseByCountryAndCity");
 
-        return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
-                "CanTravelReadService::findAllHouseByCountryAndCity");
+        return prepareMessage(housesDTO, page);
     }
 
     @Override
-    public HousesDTO findAvailableHousesBetweenDates(AvailableHouseQueryDTO queryDTO)
+    public ResponseDTO findAvailableHousesBetweenDates(AvailableHouseQueryDTO queryDTO)
     {
         var houses = m_travelServiceHelper.findAvailableHousesBetweenDates(queryDTO.startDate(), queryDTO.finishDate(),
                 queryDTO.page(), queryDTO.participantCount());
 
-        return doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
+        var housesDTO = doForDataService(() -> m_houseMapper.toHousesDTO(toListConcurrent(houses, m_houseMapper::toHouseDTO)),
                 "CanTravelReadService::findAvailableHousesBetweenDates");
+
+        return prepareMessage(housesDTO, queryDTO.page());
     }
 }

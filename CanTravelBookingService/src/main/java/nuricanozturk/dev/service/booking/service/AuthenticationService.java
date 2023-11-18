@@ -70,4 +70,3 @@ public class AuthenticationService implements IAuthenticationService
         return new RegisterResponseDTO(true, format("Welcome %s!", savedUser.getUsername()), token);
     }
 }
-

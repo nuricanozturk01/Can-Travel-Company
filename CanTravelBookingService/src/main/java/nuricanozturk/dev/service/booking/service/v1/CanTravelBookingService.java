@@ -1,4 +1,4 @@
-package nuricanozturk.dev.service.booking.service;
+package nuricanozturk.dev.service.booking.service.v1;
 
 import callofproject.dev.library.exception.service.DataServiceException;
 import nuricanozturk.dev.data.dal.CanTravelServiceHelper;
@@ -8,6 +8,7 @@ import nuricanozturk.dev.data.entity.Reservation;
 import nuricanozturk.dev.service.booking.dto.BookingSaveDTO;
 import nuricanozturk.dev.service.booking.dto.ResponseDTO;
 import nuricanozturk.dev.service.booking.mapper.IBookingMapper;
+import nuricanozturk.dev.service.booking.util.Constants;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.UUID;
 
 import static callofproject.dev.library.exception.util.CopDataUtil.doForDataService;
 
-@Service
+@Service(Constants.BOOKING_SERVICE_V1)
 @Lazy
 public class CanTravelBookingService implements ICanTravelBookingService
 {
@@ -29,11 +30,10 @@ public class CanTravelBookingService implements ICanTravelBookingService
     }
 
     @Override
-    public ResponseDTO saveReservationByUsername(BookingSaveDTO bookingSaveDTO)
+    public ResponseDTO saveReservation(BookingSaveDTO bookingSaveDTO)
     {
         return doForDataService(() -> saveReservationCallback(bookingSaveDTO), "CanTravelBookingService::saveReservation");
     }
-
 
     public ResponseDTO saveReservationCallback(BookingSaveDTO bookingSaveDTO)
     {
