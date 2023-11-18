@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>nuricanozturk.dev</groupId>
-    <artifactId>can-travel-booking-service</artifactId>
+    <artifactId>CanTravelBookingService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>can-travel-booking-service</name>
     <description>can-travel-booking-service</description>
