@@ -6,14 +6,17 @@ import java.util.Objects;
 
 public class RegisterDTO
 {
+    @JsonProperty(required = true)
     private final String username;
-    @JsonProperty("first_name")
+    @JsonProperty(value = "first_name", required = true)
     private final String firstName;
-    @JsonProperty("middle_name")
+    @JsonProperty(value = "middle_name", required = true)
     private final String middleName;
-    @JsonProperty("last_name")
+    @JsonProperty(value = "last_name", required = true)
     private final String lastName;
+    @JsonProperty(required = true)
     private final String email;
+    @JsonProperty(required = true)
     private String password;
 
     public RegisterDTO(String username, String firstName, String middleName, String lastName, String email, String password)

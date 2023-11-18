@@ -1,5 +1,7 @@
 # Can-Travel-Company
+
 ##### NOT COMPLETED YET!
+
 ### Midterm Project For SE-448 lesson.
 
 - Database:
@@ -12,10 +14,20 @@
     - Mapstruct
     - Swagger
 
-#### Database Design:
+### Database Design:
 
 ![db_design.png](image%2Fdb_design.png)
 
-#### Unit Tests:
+### Unit Tests:
+
+##### Read Service:
 
 ![unit_tests.png](image%2Funit_tests.png)
+
+##### Authentication Service:
+
+![auth_test.png](image%2Fauth_test.png)
+
+##### Booking Service:
+
+![booking_test.png](image%2Fbooking_test.png)
