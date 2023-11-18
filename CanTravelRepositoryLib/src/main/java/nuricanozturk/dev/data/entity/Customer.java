@@ -7,13 +7,14 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer
+{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "customer_id")
     private UUID customerId;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @Column(name = "first_name")
@@ -28,6 +29,8 @@ public class Customer {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "password", nullable = false)
+    private String password;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Reservation> reservations;
 
@@ -35,13 +38,24 @@ public class Customer {
     {
     }
 
-    public Customer(String username, String firstName, String middleName, String lastName, String email)
+    public Customer(String username, String password, String firstName, String middleName, String lastName, String email)
     {
+        this.password = password;
         this.username = username;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
 
     public UUID getCustomerId()

@@ -22,8 +22,8 @@ public class DataInit
 
     public void initData()
     {
-        var customer1 = new Customer("nuricanozturk", "Nuri", "Can", "ÖZTÜRK", "canozturk309@gmail.com");
-        var customer2 = new Customer("halilcanozturk", "Halil", "Can", "OZTURK", "nuricanozturk02@gmail.com");
+        var customer1 = new Customer("nuricanozturk", "$2a$10$YTGH7.yZzzbSCeCafM1ChOkpb/0Gqv5JQ.usM/5ZgbaKi7.ezTW42", "Nuri", "Can", "ÖZTÜRK", "canozturk309@gmail.com");
+        var customer2 = new Customer("halilcanozturk", "$2a$10$YTGH7.yZzzbSCeCafM1ChOkpb/0Gqv5JQ.usM/5ZgbaKi7.ezTW42", "Halil", "Can", "OZTURK", "nuricanozturk02@gmail.com");
         m_travelServiceHelper.saveAllCustomers(List.of(customer1, customer2));
 
         var location1 = new Location("Istanbul", "Turkey");
