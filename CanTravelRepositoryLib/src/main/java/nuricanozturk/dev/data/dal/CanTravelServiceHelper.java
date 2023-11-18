@@ -117,6 +117,11 @@ public class CanTravelServiceHelper
         return doForRepository(() -> m_houseRepository.findAll(pageable), "ServiceHelper::findAllHouse");
     }
 
+    public Optional<House> findHouseById(UUID houseId)
+    {
+        return doForRepository(() -> m_houseRepository.findById(houseId), "ServiceHelper::findHouseById");
+    }
+
     public Iterable<House> findAllHouse()
     {
         return doForRepository(() -> m_houseRepository.findAll(), "ServiceHelper::findAllHouse");
@@ -242,6 +247,12 @@ public class CanTravelServiceHelper
                 "ServiceHelper::findAvailableHousesBetweenDates");
     }
 
+
+    public boolean existsReservationByStartDateAfterAndFinishDateBeforeAndHouse(LocalDate start, LocalDate finish, House house)
+    {
+        return doForRepository(() -> m_reservationRepository.existsReservationByStartDateAfterAndFinishDateBeforeAndHouse(start, finish, house),
+                "ServiceHelper::existsReservationByStartDateAfterAndFinishDateBeforeAndHouse");
+    }
 
     public boolean isHouseAvailableBetweenDates(UUID houseId, LocalDate startDate, LocalDate finishDate)
     {

@@ -37,7 +37,8 @@ public class JwtAuthFilter extends OncePerRequestFilter
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null)
             {
                 var user = m_travelServiceHelper.findCustomerByUsername(username);
-                if (JwtUtil.isTokenValid(token, username))
+
+                if (JwtUtil.isTokenValid(token, username) && username.equals(user.get().getUsername()))
                 {
                     var authToken = new UsernamePasswordAuthenticationToken(user, null, null);
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

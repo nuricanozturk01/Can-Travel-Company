@@ -212,4 +212,59 @@ public class CanTravelRepositoryTest
         assertNotNull(result);
         assertEquals(2, result.size());
     }
+
+    @Test
+    public void testIsAvailableHouse_withGivenDateAndHouseId_shouldReturnAvailable()
+    {
+        var house1 = toList(m_travelServiceHelper.findHouseByHouseName("House-1", 1)).get(0);
+        assertNotNull(house1);
+        //17 - 23 not available house1
+
+        // test: 24 - 27
+        var res1 = m_travelServiceHelper.isHouseAvailableBetweenDates(house1.getHouseId(), of(2023, 11, 24),
+                of(2023, 11, 27));
+
+        // test: 25.11.2023 - 10.12.2023
+        var res2 = m_travelServiceHelper.isHouseAvailableBetweenDates(house1.getHouseId(), of(2023, 11, 25),
+                of(2023, 12, 10));
+
+        assertTrue(res1);
+        assertTrue(res2);
+    }
+
+
+    @Test
+    public void testIsAvailableHouse_withGivenDateAndHouseId_shouldReturnNotAvailable()
+    {
+        var house1 = toList(m_travelServiceHelper.findHouseByHouseName("House-1", 1)).get(0);
+        assertNotNull(house1);
+
+        //17 - 23 not available house1
+
+        // test: 17 - 21
+        var res1 = m_travelServiceHelper.isHouseAvailableBetweenDates(house1.getHouseId(), of(2023, 11, 17),
+                of(2023, 11, 21));
+
+        // test: 3 - 22
+        var res2 = m_travelServiceHelper.isHouseAvailableBetweenDates(house1.getHouseId(), of(2023, 11, 3),
+                of(2023, 11, 22));
+
+        // test: 18 - 22
+        var res3 = m_travelServiceHelper.isHouseAvailableBetweenDates(house1.getHouseId(), of(2023, 11, 18),
+                of(2023, 11, 22));
+
+        // test: 18 - 22 but more participant
+        var res4 = m_travelServiceHelper.isHouseAvailableBetweenDates(house1.getHouseId(), of(2023, 11, 18),
+                of(2023, 11, 22));
+
+/*        // test: 17 - 21
+        var res5 = m_travelServiceHelper.isHouseAvailableBetweenDates(house1.getHouseId(), of(2023, 11, 1),
+                of(2023, 11, 5), 2);*/
+
+        assertFalse(res1);
+        assertFalse(res2);
+        assertFalse(res3);
+        assertFalse(res4);
+        //assertFalse(res5);
+    }
 }

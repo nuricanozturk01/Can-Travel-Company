@@ -49,6 +49,11 @@ public class House
     {
     }
 
+    public void addReservation(Reservation reservation)
+    {
+        reservations.add(reservation);
+    }
+
     public static class Builder
     {
         private final House m_house;

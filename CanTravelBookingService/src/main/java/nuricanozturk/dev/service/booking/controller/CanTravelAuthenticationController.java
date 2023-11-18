@@ -40,4 +40,3 @@ public class CanTravelAuthenticationController
                 ex -> internalServerError().body(new RegisterResponseDTO(false, ex.getMessage(), null)));
     }
 }
-

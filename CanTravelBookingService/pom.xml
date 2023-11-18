@@ -8,11 +8,12 @@
         <version>3.1.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>nuricanozturk.dev</groupId>
     <artifactId>CanTravelBookingService</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>can-travel-booking-service</name>
-    <description>can-travel-booking-service</description>
+    <version>1.0.0</version>
+
+
     <properties>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
         <java.version>17</java.version>

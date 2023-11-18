@@ -34,6 +34,6 @@ public class CanTravelReadServiceApplication implements ApplicationRunner
     @Override
     public void run(ApplicationArguments args) throws Exception
     {
-        m_dataInit.initData();
+        //m_dataInit.initData();
     }
 }
