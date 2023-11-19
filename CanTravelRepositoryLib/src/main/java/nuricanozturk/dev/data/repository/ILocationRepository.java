@@ -12,6 +12,9 @@ public interface ILocationRepository extends CrudRepository<Location, Long>
 {
     @Query("from Location where city = :city")
     Iterable<Location> findAllByCity(String city);
+
     @Query("from Location where country = :country")
     Iterable<Location> findAllByCountry(String country);
+
+    Iterable<Location> findAllByCityAndCountry(String city, String country);
 }

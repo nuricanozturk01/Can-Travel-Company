@@ -2,6 +2,7 @@ package nuricanozturk.dev.data.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -34,6 +35,12 @@ public class Customer
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Reservation> reservations;
 
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "authorities", joinColumns = @JoinColumn(name = "customer_id"))
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
+
     public Customer()
     {
     }
@@ -46,6 +53,36 @@ public class Customer
         this.middleName = middleName;
         this.lastName = lastName;
         this.email = email;
+        addRole(Role.ROLE_USER);
+    }
+
+    public Customer(String username, String password, String firstName, String middleName, String lastName, String email,
+                    Role role)
+    {
+        this.password = password;
+        this.username = username;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.email = email;
+        addRole(role);
+    }
+
+    public void addRole(Role role)
+    {
+        if (roles == null)
+            roles = new HashSet<>();
+        roles.add(role);
+    }
+
+    public Set<Role> getRoles()
+    {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles)
+    {
+        this.roles = roles;
     }
 
     public String getPassword()

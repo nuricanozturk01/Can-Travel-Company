@@ -2,7 +2,12 @@ package nuricanozturk.dev.service.read.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 public record HouseDTO(
+
+        @JsonProperty("house_id")
+        UUID houseId,
         @JsonProperty("house_name")
         String m_houseName,
         @JsonProperty("description")

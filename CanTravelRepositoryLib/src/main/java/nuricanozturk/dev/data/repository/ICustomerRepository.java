@@ -16,4 +16,6 @@ public interface ICustomerRepository extends CrudRepository<Customer, UUID>
     Optional<Customer> findByUsername(String username);
     @Query("from Customer where email = :email")
     Optional<Customer> findByEmail(String email);
+
+    Iterable<Customer> findAllByUsernameNotContainsIgnoreCase(String username);
 }

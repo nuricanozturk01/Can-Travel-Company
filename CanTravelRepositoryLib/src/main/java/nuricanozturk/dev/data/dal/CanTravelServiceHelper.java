@@ -82,6 +82,11 @@ public class CanTravelServiceHelper
         doForRepository(() -> entities.forEach(this::saveReservation), "ServiceHelper::saveAllReservations");
     }
 
+    public Iterable<Customer> findAllCustomersByUsernameNotContainsIgnoreCase(String username)
+    {
+        return doForRepository(() -> m_customerRepository.findAllByUsernameNotContainsIgnoreCase(username), "ServiceHelper::findAllByUsernameNotContains");
+    }
+
     public House saveHouse(House house)
     {
         return doForRepository(() -> m_houseRepository.save(house), "ServiceHelper::saveHouse");
@@ -98,6 +103,7 @@ public class CanTravelServiceHelper
                 reservation.getStartDate(), reservation.getFinishDate());
         if (isAvailable)
             return doForRepository(() -> of(m_reservationRepository.save(reservation)), "ServiceHelper::saveReservationIfAvailable");
+
         return Optional.empty();
     }
 
@@ -136,6 +142,11 @@ public class CanTravelServiceHelper
     public Iterable<Location> findAllLocation()
     {
         return doForRepository(m_locationRepository::findAll, "ServiceHelper::findAllLocation");
+    }
+
+    public Iterable<Location> findAllLocationByCityAndCountry(String city, String country)
+    {
+        return doForRepository(() -> m_locationRepository.findAllByCityAndCountry(city, country), "ServiceHelper::findAllByCityAndCountry");
     }
 
 
