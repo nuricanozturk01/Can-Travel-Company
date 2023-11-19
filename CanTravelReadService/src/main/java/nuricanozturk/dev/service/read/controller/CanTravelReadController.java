@@ -104,7 +104,7 @@ public class CanTravelReadController
                 msg -> internalServerError().body(msg.getMessage()));
     }
 
-    @GetMapping("find/house/date/between")
+    @PostMapping("find/house/date/between")
     public ResponseEntity<Object> findAvailableHousesBetweenDates(@RequestBody AvailableHouseQueryDTO queryDTO)
     {
         return subscribe(() -> ok(m_travelReadService.findAvailableHousesBetweenDates(queryDTO)),

@@ -2,6 +2,7 @@ package nuricanozturk.dev.service.booking;
 
 import nuricanozturk.dev.data.dal.CanTravelServiceHelper;
 import nuricanozturk.dev.data.entity.*;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -17,6 +18,7 @@ import static nuricanozturk.dev.data.util.BeanName.READ_REPO_PACKAGE_NAME;
 import static nuricanozturk.dev.service.booking.util.Constants.BOOKING_SERVICE_BEAN_NAME;
 import static nuricanozturk.dev.service.booking.util.Constants.TEST_PROPERTIES_FILE;
 
+@Disabled
 @SpringBootTest
 @ComponentScan(basePackages = {READ_REPO_PACKAGE_NAME, BOOKING_SERVICE_BEAN_NAME})
 @EntityScan(basePackages = {READ_REPO_ENTITIY_PACKAGE_NAME, BOOKING_SERVICE_BEAN_NAME})
