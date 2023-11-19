@@ -3,6 +3,7 @@ package nuricanozturk.dev.service.booking.service;
 import callofproject.dev.library.exception.service.DataServiceException;
 import callofproject.dev.service.jwt.JwtUtil;
 import nuricanozturk.dev.data.dal.CanTravelServiceHelper;
+import nuricanozturk.dev.data.entity.Role;
 import nuricanozturk.dev.service.booking.config.CanTravelAuthenticationProvider;
 import nuricanozturk.dev.service.booking.dto.LoginDTO;
 import nuricanozturk.dev.service.booking.dto.LoginResponseDTO;
@@ -62,8 +63,9 @@ public class AuthenticationService implements IAuthenticationService
     private RegisterResponseDTO registerCallback(RegisterDTO registerDTO)
     {
         registerDTO.setPassword(m_passwordEncoder.encode(registerDTO.getPassword()));
-
-        var savedUser = m_travelServiceHelper.saveCustomer(m_registerMapper.toCustomer(registerDTO));
+        var user = m_registerMapper.toCustomer(registerDTO);
+        user.addRole(Role.ROLE_USER);
+        var savedUser = m_travelServiceHelper.saveCustomer(user);
 
         var token = JwtUtil.generateToken(savedUser.getUsername());
 

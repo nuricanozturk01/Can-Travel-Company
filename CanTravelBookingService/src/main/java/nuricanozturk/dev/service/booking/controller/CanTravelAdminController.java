@@ -1,6 +1,7 @@
 package nuricanozturk.dev.service.booking.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nuricanozturk.dev.service.booking.dto.HouseSaveDTO;
 import nuricanozturk.dev.service.booking.dto.ResponseDTO;
 import nuricanozturk.dev.service.booking.service.IAdminService;
@@ -32,12 +33,14 @@ public class CanTravelAdminController
                 ex -> internalServerError().body(new ResponseDTO(ex.getMessage(), false, null)));
     }
 
+  /*  @Deprecated(since = "19/11/2023", forRemoval = true)
+    @Tag(name = "Cannot use find all customers now!", description = "Do not use!")
     @GetMapping("/find/all/customers")
     public ResponseEntity<Object> findAllCustomers()
     {
         return subscribe(() -> ok(m_adminService.findAllCustomers()),
                 ex -> internalServerError().body(new ResponseDTO(ex.getMessage(), false, null)));
-    }
+    }*/
 
     @GetMapping("/find/all/locations")
     public ResponseEntity<Object> findAllLocations()
@@ -46,12 +49,14 @@ public class CanTravelAdminController
                 ex -> internalServerError().body(new ResponseDTO(ex.getMessage(), false, null)));
     }
 
+    /*@Deprecated(since = "19/11/2023", forRemoval = true)
     @GetMapping("/find/all/reservations")
+    @Tag(name = "Cannot use all reservations now!", description = "Do not use!")
     public ResponseEntity<Object> findAllReservations()
     {
         return subscribe(() -> ok(m_adminService.findAllReservations()),
                 ex -> internalServerError().body(new ResponseDTO(ex.getMessage(), false, null)));
-    }
+    }*/
 
     @PostMapping("/save/house")
     public ResponseEntity<Object> saveHouse(@RequestBody HouseSaveDTO houseSaveDTO)
