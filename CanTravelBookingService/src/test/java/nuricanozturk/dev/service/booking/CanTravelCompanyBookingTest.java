@@ -6,7 +6,10 @@ import nuricanozturk.dev.data.dal.CanTravelServiceHelper;
 import nuricanozturk.dev.data.entity.House;
 import nuricanozturk.dev.service.booking.dto.BookingResponseDTO;
 import nuricanozturk.dev.service.booking.dto.BookingSaveDTO;
+import nuricanozturk.dev.service.booking.dto.LoginDTO;
+import nuricanozturk.dev.service.booking.service.IAuthenticationService;
 import nuricanozturk.dev.service.booking.service.v1.ICanTravelBookingService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -36,8 +39,17 @@ public class CanTravelCompanyBookingTest
     private CanTravelServiceHelper m_travelServiceHelper;
 
     @Autowired
+    private IAuthenticationService m_authenticationService;
+    private static String TOKEN;
+
+    @Autowired
     private Random m_random;
 
+    @BeforeEach
+    public void provideToken()
+    {
+        TOKEN = m_authenticationService.login(new LoginDTO("nuricanozturk", "pass123")).token();
+    }
 
     @Test
     public void testBooking_withGivenValidData_shouldReturnTrue()
@@ -50,7 +62,7 @@ public class CanTravelCompanyBookingTest
 
         var dto = new BookingSaveDTO(house.getHouseId().toString(), "nuricanozturk", 1, start, end);
 
-        var reservationResult = m_bookingService.saveReservation(dto);
+        var reservationResult = m_bookingService.saveReservation(dto, TOKEN);
         assertNotNull(reservationResult);
         assertTrue(reservationResult.success());
 
@@ -70,12 +82,8 @@ public class CanTravelCompanyBookingTest
 
         var dto = new BookingSaveDTO(house.getHouseId().toString(), "nuricanozturk", 1, start, end);
 
-        var reservationResult = m_bookingService.saveReservation(dto);
-        assertNotNull(reservationResult);
-        assertFalse(reservationResult.success());
-
-        var object = (BookingResponseDTO) reservationResult.object();
-        assertNull(object);
+        assertThrows(DataServiceException.class, () -> m_bookingService.saveReservation(dto, TOKEN),
+                "CanTravelBookingService::saveReservation , Cause Message:Message: House is not available between dates!");
     }
 
 
@@ -88,12 +96,8 @@ public class CanTravelCompanyBookingTest
 
         var dto = new BookingSaveDTO(house.getHouseId().toString(), "nuricanozturk", 165, start, finish);
 
-        var reservationResult = m_bookingService.saveReservation(dto);
-        assertNotNull(reservationResult);
-        assertFalse(reservationResult.success());
-
-        var object = (BookingResponseDTO) reservationResult.object();
-        assertNull(object);
+        assertThrows(DataServiceException.class, () -> m_bookingService.saveReservation(dto, TOKEN),
+                "CanTravelBookingService::saveReservation , Cause Message:Message: Max participant count is: 3");
     }
 
 
@@ -106,7 +110,7 @@ public class CanTravelCompanyBookingTest
 
         var dto = new BookingSaveDTO(house.getHouseId().toString(), "owowochukwuemeka", 2, start, finish);
 
-        assertThrows(DataServiceException.class, () -> m_bookingService.saveReservation(dto),
+        assertThrows(DataServiceException.class, () -> m_bookingService.saveReservation(dto, TOKEN),
                 "Message: CanTravelBookingService::saveReservation , Cause Message:Message: Something wrong in server!");
     }
 

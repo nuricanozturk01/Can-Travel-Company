@@ -1,6 +1,7 @@
 package nuricanozturk.dev.service.booking.service.v1;
 
 import callofproject.dev.library.exception.service.DataServiceException;
+import callofproject.dev.service.jwt.JwtUtil;
 import nuricanozturk.dev.data.dal.CanTravelServiceHelper;
 import nuricanozturk.dev.data.entity.Customer;
 import nuricanozturk.dev.data.entity.House;
@@ -12,9 +13,11 @@ import nuricanozturk.dev.service.booking.util.Constants;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static callofproject.dev.library.exception.util.CopDataUtil.doForDataService;
+import static java.time.LocalDate.now;
 
 @Service(Constants.BOOKING_SERVICE_V1)
 @Lazy
@@ -30,27 +33,22 @@ public class CanTravelBookingService implements ICanTravelBookingService
     }
 
     @Override
-    public ResponseDTO saveReservation(BookingSaveDTO bookingSaveDTO)
+    public ResponseDTO saveReservation(BookingSaveDTO bookingSaveDTO, String request)
     {
-        return doForDataService(() -> saveReservationCallback(bookingSaveDTO), "CanTravelBookingService::saveReservation");
+        return doForDataService(() -> saveReservationCallback(bookingSaveDTO, request), "CanTravelBookingService::saveReservation");
     }
 
-    public ResponseDTO saveReservationCallback(BookingSaveDTO bookingSaveDTO)
+    public ResponseDTO saveReservationCallback(BookingSaveDTO bookingSaveDTO, String request)
     {
-        var isAvailableHouse = m_travelServiceHelper.isHouseAvailableBetweenDates(UUID.fromString(bookingSaveDTO.houseUUID()),
-                bookingSaveDTO.startDate(), bookingSaveDTO.finishDate());
+        if (bookingSaveDTO.startDate().isAfter(bookingSaveDTO.finishDate())     || bookingSaveDTO.finishDate().isBefore(now()))
+            throw new DataServiceException("Invalid Date Range!");
 
-        if (!isAvailableHouse)
-            return new ResponseDTO("House is not available between dates!", false, null);
+        var customer = checkAndReturnOptionalUser(request, bookingSaveDTO.customer_username());
 
         var house = m_travelServiceHelper.findHouseById(UUID.fromString(bookingSaveDTO.houseUUID()));
-        var customer = m_travelServiceHelper.findCustomerByUsername(bookingSaveDTO.customer_username());
 
-        if (house.isEmpty() || customer.isEmpty())
-            throw new DataServiceException("Something wrong in server!");
-
-        if (house.get().getMaxParticipantCount() < bookingSaveDTO.participantCount())
-            return new ResponseDTO("Max participant count is: " + house.get().getMaxParticipantCount(), false, null);
+        if (!isValidUserAndHouse(house, customer, bookingSaveDTO))
+            throw new DataServiceException("Please check your information!");
 
         var reservation = new Reservation(house.get(), customer.get(), bookingSaveDTO.startDate(), bookingSaveDTO.finishDate());
 
@@ -58,6 +56,30 @@ public class CanTravelBookingService implements ICanTravelBookingService
 
         return prepareResponseMessage(savedReservation, customer.get(), house.get(), bookingSaveDTO);
 
+    }
+
+    private Optional<Customer> checkAndReturnOptionalUser(String request, String username)
+    {
+        if (!JwtUtil.extractUsername(request).equals(username))
+            throw new DataServiceException("Permission denied! You are not real user!");
+
+        return m_travelServiceHelper.findCustomerByUsername(username);
+    }
+
+    private boolean isValidUserAndHouse(Optional<House> house, Optional<Customer> customer, BookingSaveDTO bookingSaveDTO)
+    {
+        if (customer.isEmpty())
+            throw new DataServiceException("Customer does not found!");
+
+        var isAvailableHouse = m_travelServiceHelper.isHouseAvailableBetweenDates(UUID.fromString(bookingSaveDTO.houseUUID()),
+                bookingSaveDTO.startDate(), bookingSaveDTO.finishDate());
+        if (!isAvailableHouse)
+            throw new DataServiceException("House is not available between dates!");
+
+        if (house.get().getMaxParticipantCount() < bookingSaveDTO.participantCount())
+            throw new DataServiceException("Max participant count is: " + house.get().getMaxParticipantCount());
+
+        return true;
     }
 
     private ResponseDTO prepareResponseMessage(Reservation reservation, Customer customer, House house, BookingSaveDTO booking)

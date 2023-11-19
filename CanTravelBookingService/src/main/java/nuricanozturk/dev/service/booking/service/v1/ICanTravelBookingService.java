@@ -5,5 +5,5 @@ import nuricanozturk.dev.service.booking.dto.ResponseDTO;
 
 public interface ICanTravelBookingService
 {
-    ResponseDTO saveReservation(BookingSaveDTO bookingSaveDTO);
+    ResponseDTO saveReservation(BookingSaveDTO bookingSaveDTO, String request);
 }

@@ -1,8 +1,8 @@
 package nuricanozturk.dev.service.booking.controller;
 
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import nuricanozturk.dev.service.booking.dto.BookingSaveDTO;
 import nuricanozturk.dev.service.booking.dto.ResponseDTO;
 import nuricanozturk.dev.service.booking.service.v1.ICanTravelBookingService;
@@ -33,13 +33,14 @@ public class CanTravelBookingController
     }
 
 
-
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Date Format must be (dd/MM/yyyy): ex.[29/12/2023]")
     @PostMapping("reservation")
-    public ResponseEntity<Object> saveReservationWithCustomerUsername(@RequestBody BookingSaveDTO bookingSaveDTO)
+    public ResponseEntity<Object> saveReservationWithCustomerUsername(@RequestBody BookingSaveDTO bookingSaveDTO, HttpServletRequest request)
     {
-        return subscribe(() -> ok(m_bookingService.saveReservation(bookingSaveDTO)),
-                ex -> internalServerError().body(new ResponseDTO("false", false, null)));
+        var token = request.getHeader("Authorization").substring(7);
+
+        return subscribe(() -> ok(m_bookingService.saveReservation(bookingSaveDTO, token)),
+                ex -> internalServerError().body(new ResponseDTO(ex.getMessage(), false, null)));
     }
 
 }
