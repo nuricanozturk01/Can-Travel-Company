@@ -23,10 +23,8 @@ import static nuricanozturk.dev.service.read.util.Constants.TEST_PROPERTIES_FILE
 @TestPropertySource(locations = TEST_PROPERTIES_FILE)
 class CanTravelReadServiceApplicationTests
 {
-
     @Autowired
     private CanTravelServiceHelper m_travelServiceHelper;
-
     @Test
     void contextLoads()
     {

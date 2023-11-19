@@ -42,7 +42,8 @@ public class CanTravelReadService implements ICanTravelReadService
     @Override
     public ResponseDTO findAllHouse(int page)
     {
-        return prepareMessage(m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper.findAllHouse(), m_houseMapper::toHouseDTO)), page);
+        return prepareMessage(m_houseMapper.toHousesDTO(toListConcurrent(m_travelServiceHelper.findAllHousePageable(page),
+                m_houseMapper::toHouseDTO)), page);
     }
 
     @Override

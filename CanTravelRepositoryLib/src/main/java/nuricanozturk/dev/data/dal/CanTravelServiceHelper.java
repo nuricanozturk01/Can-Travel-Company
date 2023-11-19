@@ -127,6 +127,12 @@ public class CanTravelServiceHelper
         return doForRepository(() -> m_houseRepository.findAll(), "ServiceHelper::findAllHouse");
     }
 
+    public Iterable<House> findAllHouse(int page)
+    {
+        var pageable = PageRequest.of(page - 1, m_defaultPageSize);
+        return doForRepository(() -> m_houseRepository.findAll(pageable), "ServiceHelper::findAllHouse");
+    }
+
     public Iterable<Location> findAllLocation()
     {
         return doForRepository(m_locationRepository::findAll, "ServiceHelper::findAllLocation");

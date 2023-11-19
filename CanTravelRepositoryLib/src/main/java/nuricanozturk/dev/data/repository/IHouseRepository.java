@@ -12,12 +12,18 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 @Lazy
 public interface IHouseRepository extends JpaRepository<House, UUID>
 {
+    @Override
+    Page<House> findAll(Pageable pageable);
+
+
+
     @Query("from House where viewType = :viewType")
     Page<House> findByViewType(ViewType viewType, Pageable pageable);
 
