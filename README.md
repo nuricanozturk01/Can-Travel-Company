@@ -2,7 +2,7 @@
 
 ##### NOT COMPLETED YET!
 
-### Midterm Project For SE-448 lesson.
+### Midterm Project For SE-4458 lesson.
 
 - Database:
     - Development: PostgreSQL
