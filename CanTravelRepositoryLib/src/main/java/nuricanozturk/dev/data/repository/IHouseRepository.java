@@ -23,7 +23,6 @@ public interface IHouseRepository extends JpaRepository<House, UUID>
     Page<House> findAll(Pageable pageable);
 
 
-
     @Query("from House where viewType = :viewType")
     Page<House> findByViewType(ViewType viewType, Pageable pageable);
 
@@ -51,10 +50,13 @@ public interface IHouseRepository extends JpaRepository<House, UUID>
 
 
     @Query("""
-                select r.house
-                from Reservation r
-                where (r.startDate >= :finishDate or r.finishDate <= :startDate)
-                    and r.house.maxParticipantCount >= :participantCount
+                select h
+                from House h
+                where h not in (
+                    select distinct r.house
+                    from Reservation r
+                    where (r.startDate <= :finishDate and r.finishDate >= :startDate)
+                ) and h.maxParticipantCount >= :participantCount
             """)
     Page<House> findAvailableHousesBetweenDates(
             @Param("startDate") LocalDate startDate,
@@ -62,20 +64,7 @@ public interface IHouseRepository extends JpaRepository<House, UUID>
             @Param("participantCount") int participantCount,
             Pageable pageable
     );
-
-    /*
-        r_start: 20/10/2023
-        r_finish: 25/10/23
-
-        c_start: 01/10/2023
-        c_finish: 10/10/2023
-
-        (startDate < res.startDate and startDate < res.finishDate
-        and finishDate < res.startDate and finishDate < res.finishDate)
-        or (startDate > res.finishDate and startDate > res.startDate
-        and finishDate > res.startDate and finishDate > res.finishDate)
-     */
-
+    
 
     @Query("""
                 select case when count (res) = 0 then true else false end
