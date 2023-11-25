@@ -33,6 +33,12 @@ public class CanTravelBookingController
     }
 
 
+    /**
+     * Save reservation with customer username.
+     *
+     * @param bookingSaveDTO is bookingSaveDTO
+     * @return if success ResponseDTO else return Error Message
+     */
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Date Format must be (dd/MM/yyyy): ex.[29/12/2023]")
     @PostMapping("reservation")
     public ResponseEntity<Object> saveReservationWithCustomerUsername(@RequestBody BookingSaveDTO bookingSaveDTO, HttpServletRequest request)

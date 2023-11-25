@@ -15,6 +15,13 @@ import org.mapstruct.Mappings;
         BookingSaveDTO.class, BookingSaveDTOv2.class})
 public interface IBookingMapper
 {
+    /**
+     * @param reservation    is reservation
+     * @param customer       is customer
+     * @param house          is house
+     * @param bookingSaveDTO is bookingSaveDTO
+     * @return BookingResponseDTO
+     */
     @Mappings({
             @Mapping(source = "reservation.startDate", target = "startDate"),
             @Mapping(source = "reservation.finishDate", target = "finishDate"),
@@ -24,6 +31,13 @@ public interface IBookingMapper
     })
     BookingResponseDTO toBookingResponseDTO(Reservation reservation, Customer customer, House house, BookingSaveDTO bookingSaveDTO);
 
+    /**
+     * @param reservation    is reservation
+     * @param customer       is customer
+     * @param house          is house
+     * @param bookingSaveDTO is bookingSaveDTO
+     * @return BookingResponseDTO
+     */
     @Mappings({
             @Mapping(source = "reservation.startDate", target = "startDate"),
             @Mapping(source = "reservation.finishDate", target = "finishDate"),

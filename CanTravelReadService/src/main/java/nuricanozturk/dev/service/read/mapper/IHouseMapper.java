@@ -12,7 +12,12 @@ import java.util.List;
 @Mapper(implementationName = "HouseMapperImpl", componentModel = "spring", uses = ILocationMapper.class)
 public interface IHouseMapper
 {
-
+    /**
+     * Convert house to houseDTO.
+     *
+     * @param house represent the house.
+     * @return HouseDTO.
+     */
     @Mappings({
             @Mapping(source = "location", target = "m_locationDTO"),
             @Mapping(source = "houseName", target = "m_houseName"),
@@ -23,8 +28,20 @@ public interface IHouseMapper
     })
     HouseDTO toHouseDTO(House house);
 
+    /**
+     * Convert houseDTO to house.
+     *
+     * @param houseDTO represent the houseDTO.
+     * @return House.
+     */
     House toHouse(HouseDTO houseDTO);
 
+    /**
+     * Convert houseDTO to house.
+     *
+     * @param houseDTOS represent the houseDTOs.
+     * @return HousesDTO.
+     */
     default HousesDTO toHousesDTO(List<HouseDTO> houseDTOS)
     {
         return new HousesDTO(houseDTOS);

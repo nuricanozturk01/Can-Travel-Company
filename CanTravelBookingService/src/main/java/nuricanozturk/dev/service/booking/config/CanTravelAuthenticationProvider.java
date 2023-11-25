@@ -21,7 +21,11 @@ public class CanTravelAuthenticationProvider implements AuthenticationProvider
         this.passwordEncoder = passwordEncoder;
     }
 
-
+    /**
+     * @param authentication the authentication request object.
+     * @return Authentication
+     * @throws AuthenticationException if the authentication fails
+     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException
     {
@@ -35,8 +39,7 @@ public class CanTravelAuthenticationProvider implements AuthenticationProvider
                 return new UsernamePasswordAuthenticationToken(username, pwd, user.get().getRoles());
 
             else throw new BadCredentialsException("Invalid password!");
-        }
-        else throw new BadCredentialsException("No user registered with this details!");
+        } else throw new BadCredentialsException("No user registered with this details!");
     }
 
 

@@ -30,6 +30,13 @@ public class CanTravelReadService implements ICanTravelReadService
         m_houseMapper = houseMapper;
     }
 
+    /**
+     * Prepare response message.
+     *
+     * @param houses represent the houses.
+     * @param page   represent the page.
+     * @return ResponseDTO.
+     */
     protected ResponseDTO prepareMessage(HousesDTO houses, int page)
     {
         var totalPage = m_travelServiceHelper.getPageSize();
@@ -39,6 +46,12 @@ public class CanTravelReadService implements ICanTravelReadService
         return new ResponseDTO(msg, totalPage, page, houses.houses().size(), true, houses.houses());
     }
 
+    /**
+     * Find all house pageable
+     *
+     * @param page represent the page.
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO findAllHouse(int page)
     {
@@ -46,6 +59,13 @@ public class CanTravelReadService implements ICanTravelReadService
                 m_houseMapper::toHouseDTO)), page);
     }
 
+    /**
+     * Find house HouseType.
+     *
+     * @param houseType represent the houseType. (Enum)
+     * @param page      represent the page.
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO findAllHouseByHouseType(HouseType houseType, int page)
     {
@@ -56,6 +76,13 @@ public class CanTravelReadService implements ICanTravelReadService
         return prepareMessage(housesDTO, page);
     }
 
+    /**
+     * Find house ViewType.
+     *
+     * @param viewType represent the viewType. (Enum)
+     * @param page     represent the page.
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO findAllHouseByView(ViewType viewType, int page)
     {
@@ -66,6 +93,14 @@ public class CanTravelReadService implements ICanTravelReadService
         return prepareMessage(housesDTO, page);
     }
 
+    /**
+     * Find house by price between.
+     *
+     * @param min  represent the min price.
+     * @param max  represent the max price.
+     * @param page represent the page.
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO findAllHouseByPriceBetween(double min, double max, int page)
     {
@@ -75,7 +110,13 @@ public class CanTravelReadService implements ICanTravelReadService
                 "CanTravelReadService::findAllHouseByPriceBetween"), page);
     }
 
-
+    /**
+     * Find house by price less than equal.
+     *
+     * @param price represent the price.
+     * @param page  represent the page.
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO findAllHouseByPriceLessThanEqual(double price, int page)
     {
@@ -85,6 +126,13 @@ public class CanTravelReadService implements ICanTravelReadService
                 "CanTravelReadService::findAllHouseByPriceLessThanEqual"), page);
     }
 
+    /**
+     * Find house by price greater than equal.
+     *
+     * @param price represent the price.
+     * @param page  represent the page.
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO findAllHouseByPriceGreaterThanEqual(double price, int page)
     {
@@ -94,6 +142,13 @@ public class CanTravelReadService implements ICanTravelReadService
                 "CanTravelReadService::findAllHouseByPriceGreaterThanEqual"), page);
     }
 
+    /**
+     * Find house by house name.
+     *
+     * @param homeName represent the house name.
+     * @param page     represent the page.
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO findHouseByHouseName(String homeName, int page)
     {
@@ -103,6 +158,13 @@ public class CanTravelReadService implements ICanTravelReadService
                 "CanTravelReadService::findHouseByHouseName"), page);
     }
 
+    /**
+     * Find house by city.
+     *
+     * @param city city name.
+     * @param page represent the page.
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO findAllHouseInCity(String city, int page)
     {
@@ -112,6 +174,13 @@ public class CanTravelReadService implements ICanTravelReadService
         return prepareMessage(housesDTO, page);
     }
 
+    /**
+     * Find house by country.
+     *
+     * @param country represent the country.
+     * @param page    represent the page.
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO findAllHouseInCountry(String country, int page)
     {
@@ -121,6 +190,14 @@ public class CanTravelReadService implements ICanTravelReadService
         return prepareMessage(housesDTO, page);
     }
 
+    /**
+     * Find house by country and city.
+     *
+     * @param country represent the country.
+     * @param city    represent the city.
+     * @param page    represent the page.
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO findAllHouseByCountryAndCity(String country, String city, int page)
     {
@@ -130,6 +207,12 @@ public class CanTravelReadService implements ICanTravelReadService
         return prepareMessage(housesDTO, page);
     }
 
+    /**
+     * Find available houses with given dates and participant count.
+     *
+     * @param queryDTO represent the queryDTO.
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO findAvailableHousesBetweenDates(AvailableHouseQueryDTO queryDTO)
     {

@@ -36,12 +36,24 @@ public class AuthenticationService implements IAuthenticationService
         m_registerMapper = registerMapper;
     }
 
+    /**
+     * Register User with given dto class.
+     *
+     * @param registerDTO represent the dto class
+     * @return RegisterResponseDTO.
+     */
     @Override
     public RegisterResponseDTO register(RegisterDTO registerDTO)
     {
         return doForDataService(() -> registerCallback(registerDTO), "AuthenticationService::register");
     }
 
+    /**
+     * Login User with given dto class.
+     *
+     * @param loginDTO represent the dto class
+     * @return LoginResponseDTO.
+     */
     @Override
     public LoginResponseDTO login(LoginDTO loginDTO)
     {
@@ -50,6 +62,12 @@ public class AuthenticationService implements IAuthenticationService
 
     //-----------------------------------------_CALLBACKS_---------------------------------------
 
+    /**
+     * Login User with given dto class.
+     *
+     * @param loginDTO represent the dto class
+     * @return LoginResponseDTO.
+     */
     private LoginResponseDTO loginCallback(LoginDTO loginDTO)
     {
         var auth = m_authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.username(), loginDTO.password()));
@@ -60,6 +78,12 @@ public class AuthenticationService implements IAuthenticationService
         return new LoginResponseDTO(true, "User login operation is successful", JwtUtil.generateToken(loginDTO.username()));
     }
 
+    /**
+     * Register User with given dto class.
+     *
+     * @param registerDTO represent the dto class
+     * @return RegisterResponseDTO.
+     */
     private RegisterResponseDTO registerCallback(RegisterDTO registerDTO)
     {
         registerDTO.setPassword(m_passwordEncoder.encode(registerDTO.getPassword()));

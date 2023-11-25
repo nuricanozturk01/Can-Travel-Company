@@ -24,6 +24,15 @@ public class JwtAuthFilter extends OncePerRequestFilter
         m_travelServiceHelper = travelServiceHelper;
     }
 
+    /**
+     * Filter the request and check if the token is valid.
+     *
+     * @param request     The request.
+     * @param response    The response.
+     * @param filterChain The filter chain.
+     * @throws ServletException If the servlet encounters difficulty.
+     * @throws IOException      If the servlet encounters difficulty.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
     {

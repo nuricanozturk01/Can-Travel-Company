@@ -1,7 +1,6 @@
 package nuricanozturk.dev.service.booking.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import nuricanozturk.dev.service.booking.dto.HouseSaveDTO;
 import nuricanozturk.dev.service.booking.dto.ResponseDTO;
 import nuricanozturk.dev.service.booking.service.IAdminService;
@@ -26,6 +25,11 @@ public class CanTravelAdminController
     }
 
 
+    /**
+     * Find all houses
+     *
+     * @return if success HouseDTO else return Error Message
+     */
     @GetMapping("/find/all/house")
     public ResponseEntity<Object> findAllHouses()
     {
@@ -42,6 +46,11 @@ public class CanTravelAdminController
                 ex -> internalServerError().body(new ResponseDTO(ex.getMessage(), false, null)));
     }*/
 
+    /**
+     * Find all locations
+     *
+     * @return if success LocationDTO else return Error Message
+     */
     @GetMapping("/find/all/locations")
     public ResponseEntity<Object> findAllLocations()
     {
@@ -58,6 +67,11 @@ public class CanTravelAdminController
                 ex -> internalServerError().body(new ResponseDTO(ex.getMessage(), false, null)));
     }*/
 
+    /**
+     * Save house
+     *
+     * @return if success HouseDTO else return Error Message
+     */
     @PostMapping("/save/house")
     public ResponseEntity<Object> saveHouse(@RequestBody HouseSaveDTO houseSaveDTO)
     {

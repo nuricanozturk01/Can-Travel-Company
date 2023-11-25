@@ -30,6 +30,11 @@ public class CanTravelReadControllerV2 extends CanTravelReadController
         return super.findAllHouse(page);
     }
 
+    /**
+     * Find all house.
+     *
+     * @return ResponseDTO.
+     */
     @GetMapping("find/all/house")
     public ResponseEntity<Object> findAllHouse()
     {

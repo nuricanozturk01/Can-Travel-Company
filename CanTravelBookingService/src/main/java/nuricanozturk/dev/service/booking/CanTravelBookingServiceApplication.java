@@ -46,6 +46,13 @@ public class CanTravelBookingServiceApplication implements ApplicationRunner
         SpringApplication.run(CanTravelBookingServiceApplication.class, args);
     }
 
+    /**
+     * Run method for ApplicationRunner.
+     * Save admin user if not exists.
+     *
+     * @param args represent the ApplicationArguments
+     * @throws Exception if any exception occurs
+     */
     @Override
     public void run(ApplicationArguments args) throws Exception
     {

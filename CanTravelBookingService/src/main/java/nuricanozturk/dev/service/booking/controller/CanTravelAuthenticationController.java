@@ -26,6 +26,12 @@ public class CanTravelAuthenticationController
         m_authenticationService = authenticationService;
     }
 
+    /**
+     * Login
+     *
+     * @param loginDTO is loginDTO
+     * @return if success LoginResponseDTO else return Error Message
+     */
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginDTO loginDTO)
     {
@@ -33,6 +39,12 @@ public class CanTravelAuthenticationController
                 ex -> internalServerError().body(new LoginResponseDTO(false, ex.getMessage(), null)));
     }
 
+    /**
+     * Register
+     *
+     * @param registerResponseDTO is registerResponseDTO
+     * @return if success RegisterResponseDTO else return Error Message
+     */
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody RegisterDTO registerResponseDTO)
     {

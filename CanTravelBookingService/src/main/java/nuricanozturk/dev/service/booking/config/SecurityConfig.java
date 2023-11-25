@@ -30,6 +30,11 @@ public class SecurityConfig
         m_authenticationProvider = authenticationProvider;
     }
 
+    /**
+     * Customize security
+     *
+     * @param security represent the security
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity security) throws Exception
     {
@@ -44,12 +49,24 @@ public class SecurityConfig
                 .build();
     }
 
+    /**
+     * Get the authentication manager
+     *
+     * @param authenticationConfiguration represent the authentication configuration
+     * @return the authentication manager
+     * @throws Exception if the authentication manager encounters difficulty
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception
     {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    /**
+     * Customize authorization requests
+     *
+     * @param requests represent the request
+     */
     private void authorizationRequests(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry requests)
     {
         requests

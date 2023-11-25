@@ -32,6 +32,12 @@ public class CanTravelBookingServiceV2 implements ICanTravelBookingServiceV2
         m_bookingMapper = bookingMapper;
     }
 
+    /**
+     * Save Reservation with given dto class.
+     *
+     * @param bookingSaveDTO represent the dto class
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO saveReservation(BookingSaveDTOv2 bookingSaveDTO, String token)
     {
@@ -39,6 +45,12 @@ public class CanTravelBookingServiceV2 implements ICanTravelBookingServiceV2
     }
 
 
+    /**
+     * Save Reservation with given dto class.
+     *
+     * @param bookingSaveDTO represent the dto class
+     * @return ResponseDTO.
+     */
     public ResponseDTO saveReservationCallback(BookingSaveDTOv2 bookingSaveDTO, String token)
     {
         if (bookingSaveDTO.startDate().isAfter(bookingSaveDTO.finishDate()) || bookingSaveDTO.startDate().isAfter(now())
@@ -60,6 +72,12 @@ public class CanTravelBookingServiceV2 implements ICanTravelBookingServiceV2
 
     }
 
+    /**
+     * Find user with given username
+     *
+     * @param id represent the user id.
+     * @return UserDTO class.
+     */
     private Optional<Customer> checkAndReturnOptionalUser(String request, String id)
     {
         var user = m_travelServiceHelper.findCustomerById(UUID.fromString(id));
@@ -70,6 +88,14 @@ public class CanTravelBookingServiceV2 implements ICanTravelBookingServiceV2
         return user;
     }
 
+    /**
+     * Check user and house is valid.
+     *
+     * @param house          represent the house.
+     * @param customer       represent the customer.
+     * @param bookingSaveDTO represent the bookingSaveDTO.
+     * @return boolean value.
+     */
     private boolean isValidUserAndHouse(Optional<House> house, Optional<Customer> customer, BookingSaveDTOv2 bookingSaveDTO)
     {
         if (customer.isEmpty())
@@ -86,6 +112,15 @@ public class CanTravelBookingServiceV2 implements ICanTravelBookingServiceV2
         return true;
     }
 
+    /**
+     * Prepare response message.
+     *
+     * @param reservation is reservation
+     * @param customer    is customer
+     * @param house       is house
+     * @param booking     is booking
+     * @return ResponseDTO
+     */
     private ResponseDTO prepareResponseMessage(Reservation reservation, Customer customer, House house, BookingSaveDTOv2 booking)
     {
 

@@ -25,12 +25,22 @@ public class AdminService implements IAdminService
         m_travelServiceHelper = travelServiceHelper;
     }
 
+    /**
+     * Find all house.
+     *
+     * @return Iterable<House>.
+     */
     @Override
     public Iterable<House> findAllHouse()
     {
         return doForDataService(() -> m_travelServiceHelper.findAllHouse(), "AdminService::findAllHouse");
     }
 
+    /**
+     * Find all customers.
+     *
+     * @return Iterable<Customer>.
+     */
     @Override
     public Iterable<Customer> findAllCustomers()
     {
@@ -38,24 +48,46 @@ public class AdminService implements IAdminService
                 "AdminService::findAllCustomersByUsernameNotContainsIgnoreCase");
     }
 
+    /**
+     * Find all locations.
+     *
+     * @return Iterable<Location>.
+     */
     @Override
     public Iterable<Location> findAllLocations()
     {
         return doForDataService(m_travelServiceHelper::findAllLocation, "AdminService::findAllLocations");
     }
 
+    /**
+     * Find all reservations.
+     *
+     * @return Iterable<Reservation>.
+     */
     @Override
     public Iterable<Reservation> findAllReservations()
     {
         return doForDataService(m_travelServiceHelper::findAllReservation, "AdminService::findAllReservations");
     }
 
+    /**
+     * Save House with given dto class.
+     *
+     * @param houseSaveDTO represent the dto class
+     * @return House.
+     */
     @Override
     public House saveHouse(HouseSaveDTO houseSaveDTO)
     {
         return doForDataService(() -> saveHouseCallback(houseSaveDTO), "AdminService::saveHouse");
     }
 
+    /**
+     * Save House with given dto class.
+     *
+     * @param houseSaveDTO represent the dto class
+     * @return House.
+     */
     private House saveHouseCallback(HouseSaveDTO houseSaveDTO)
     {
         var location = toStream(m_travelServiceHelper.findAllLocationByCityAndCountry(houseSaveDTO.city(), houseSaveDTO.country())).toList();

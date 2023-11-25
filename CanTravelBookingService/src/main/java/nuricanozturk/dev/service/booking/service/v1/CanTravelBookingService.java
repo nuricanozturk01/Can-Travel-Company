@@ -32,15 +32,27 @@ public class CanTravelBookingService implements ICanTravelBookingService
         m_bookingMapper = bookingMapper;
     }
 
+    /**
+     * Save Reservation with given dto class.
+     *
+     * @param bookingSaveDTO represent the dto class
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTO saveReservation(BookingSaveDTO bookingSaveDTO, String request)
     {
         return doForDataService(() -> saveReservationCallback(bookingSaveDTO, request), "CanTravelBookingService::saveReservation");
     }
 
+    /**
+     * Save Reservation with given dto class.
+     *
+     * @param bookingSaveDTO represent the dto class
+     * @return ResponseDTO.
+     */
     public ResponseDTO saveReservationCallback(BookingSaveDTO bookingSaveDTO, String request)
     {
-        if (bookingSaveDTO.startDate().isAfter(bookingSaveDTO.finishDate())     || bookingSaveDTO.finishDate().isBefore(now()))
+        if (bookingSaveDTO.startDate().isAfter(bookingSaveDTO.finishDate()) || bookingSaveDTO.finishDate().isBefore(now()))
             throw new DataServiceException("Invalid Date Range!");
 
         var customer = checkAndReturnOptionalUser(request, bookingSaveDTO.customer_username());
@@ -58,6 +70,12 @@ public class CanTravelBookingService implements ICanTravelBookingService
 
     }
 
+    /**
+     * Find user with given username
+     *
+     * @param username represent the username.
+     * @return UserDTO class.
+     */
     private Optional<Customer> checkAndReturnOptionalUser(String request, String username)
     {
         if (!JwtUtil.extractUsername(request).equals(username))
@@ -66,6 +84,14 @@ public class CanTravelBookingService implements ICanTravelBookingService
         return m_travelServiceHelper.findCustomerByUsername(username);
     }
 
+    /**
+     * Check user and house is valid.
+     *
+     * @param house          is house
+     * @param customer       is customer
+     * @param bookingSaveDTO is bookingSaveDTO
+     * @return true if valid else throw exception
+     */
     private boolean isValidUserAndHouse(Optional<House> house, Optional<Customer> customer, BookingSaveDTO bookingSaveDTO)
     {
         if (customer.isEmpty())
@@ -82,6 +108,15 @@ public class CanTravelBookingService implements ICanTravelBookingService
         return true;
     }
 
+    /**
+     * Prepare response message.
+     *
+     * @param reservation is reservation
+     * @param customer    is customer
+     * @param house       is house
+     * @param booking     is booking
+     * @return ResponseDTO
+     */
     private ResponseDTO prepareResponseMessage(Reservation reservation, Customer customer, House house, BookingSaveDTO booking)
     {
 

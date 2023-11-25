@@ -24,6 +24,12 @@ public class CanTravelReadServiceV2 implements ICanTravelReadServiceV2
         m_houseMapper = houseMapper;
     }
 
+    /**
+     * Prepare response message.
+     *
+     * @param houses represent the houses.
+     * @return ResponseDTO.
+     */
     private ResponseDTOv2 prepareMessage(HousesDTO houses)
     {
         var msg = format("%d item found successfully!", houses.houses().size());
@@ -31,6 +37,11 @@ public class CanTravelReadServiceV2 implements ICanTravelReadServiceV2
         return new ResponseDTOv2(msg, houses.houses().size(), true, houses.houses());
     }
 
+    /**
+     * Find all house pageable
+     *
+     * @return ResponseDTO.
+     */
     @Override
     public ResponseDTOv2 findAllHouse()
     {
