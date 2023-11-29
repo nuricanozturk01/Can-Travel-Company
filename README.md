@@ -78,5 +78,6 @@ Before making a request, please refer to the bottom section of the Swagger docum
   - https://www.youtube.com/playlist?list=PLB80H1Af3NVp_RBjHQMuUhT2hsV1G-Ak0
 
 - Swagger Documentation:
-  - Query Service: http://ec2-3-72-76-120.eu-central-1.compute.amazonaws.com:5151/swagger-ui/index.html
-  - Booking Service: http://ec2-3-72-76-120.eu-central-1.compute.amazonaws.com:8080/swagger-ui/index.html
+  - Message: Removed Deployment, Cause: <a href="https://www.youtube.com/watch?v=77jbSk34wNM&list=PLB80H1Af3NVp_RBjHQMuUhT2hsV1G-Ak0">Amazon Removed Deployment.(Youtube Link)</a>
+  - Query Service: <strike> http://ec2-3-72-76-120.eu-central-1.compute.amazonaws.com:5151/swagger-ui/index.html </strike>
+  - Booking Service: <strike> http://ec2-3-72-76-120.eu-central-1.compute.amazonaws.com:8080/swagger-ui/index.html </strike>
