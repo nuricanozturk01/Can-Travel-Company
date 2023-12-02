@@ -71,13 +71,3 @@ The accepted date format for requests is: dd/MM/yyyy (e.g., 25/01/1999).
 ## Swagger Documentation
 
 Before making a request, please refer to the bottom section of the Swagger documentation, which displays the Data Transfer Objects (DTOs) for accurate parameter information.
-
-
-## Document:
-- Youtube Playlist:
-  - https://www.youtube.com/playlist?list=PLB80H1Af3NVp_RBjHQMuUhT2hsV1G-Ak0
-
-- Swagger Documentation:
-  - Message: Removed Deployment, Cause: <a href="https://www.youtube.com/watch?v=77jbSk34wNM&list=PLB80H1Af3NVp_RBjHQMuUhT2hsV1G-Ak0">Amazon Removed Deployment.(Youtube Link)</a>
-  - Query Service: <strike> http://ec2-3-72-76-120.eu-central-1.compute.amazonaws.com:5151/swagger-ui/index.html </strike>
-  - Booking Service: <strike> http://ec2-3-72-76-120.eu-central-1.compute.amazonaws.com:8080/swagger-ui/index.html </strike>
